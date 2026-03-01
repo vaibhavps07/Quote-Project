@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindFuel</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(180deg,#7f9cab 0%,#9fb0b9 40%,#e8c3b2 100%);
+}
+
+.card{
+    background:#ffffff;
+    width:100%;
+    max-width:480px;
+    padding:30px 25px;
+    border-radius:20px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+h2{
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.time{
+    font-size:14px;
+    font-weight:600;
+    color:#666;
+    margin-bottom:20px;
+}
+
+.quote{
+    font-size:18px;
+    font-weight:600;
+    line-height:1.6;
+    margin-bottom:15px;
+    min-height:80px;
+}
+
+.author{
+    font-weight:700;
+    color:#764ba2;
+    margin-bottom:25px;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+button{
+    padding:10px 18px;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.new-btn{
+    background:#667eea;
+    color:white;
+}
+
+.copy-btn{
+    background:#28a745;
+    color:white;
+}
+
+.share-btn{
+    background:#ff9800;
+    color:white;
+}
+
+button:hover{
+    opacity:0.85;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>MindFuel</h2>
+    <div id="time" class="time"></div>
+
+    <div class="quote" id="quote">
+        Click "New Quote" to get inspired.
+    </div>
+    <div class="author" id="author"></div>
+
+    <div class="buttons">
+        <button class="new-btn" onclick="generateQuote()">New Quote</button>
+        <button class="copy-btn" onclick="copyQuote()">Copy</button>
+        <button class="share-btn" onclick="shareQuote()">Share</button>
+    </div>
+</div>
+
+<script>
+const quotes = [
+{ text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" },
+    { text: "Do what you can, with what you have, where you are.", author: "Theodore Roosevelt" },
+    { text: "Hard work beats talent when talent doesn't work hard.", author: "Tim Notke" },
+    { text: "Dream big. Start small. Act now.", author: "Robin Sharma" },
+    { text: "Discipline is choosing between what you want now and what you want most.", author: "Abraham Lincoln" },
+    { text: "Every brilliant experiment, like every great work of art, starts with an act of imagination.", author: "Jonah Lehrer" },
+    { text: "The two most important days in your life are the day you are born... and the day you find out why.", author: "Mark Twain" },
+    { text: "Life’s most persistent and urgent question is, ‘‘What are you doing for others?’’.", author: "Martin Luther King, Jr." },
+    { text: "Life is like riding a bicycle. To keep your balance, you must keep moving.", author: "Albert Einstein" },
+    { text: "Nothing in life is to be feared, it is only to be understood.", author: "Marie Curie" },
+    { text: "Knowing is not enough; we must apply. Willing is not enough; we must do.", author: "Johann Wolfgang von Goethe" },
+    { text: "Great works are performed not by strength but by perseverance.", author: "Samuel Johnson" },
+    { text: "Imagination is more important than knowledge.", author: "Albert Einstein" },
+    { text: "Research is what I’m doing when I don’t know what I’m doing.", author: "Wernher von Braun" },
+    { text: "The true sign of intelligence is not knowledge but imagination.", author: "Albert Einstein" },
+    { text: "An investment in knowledge pays the best interest.", author: "Benjamin Franklin" },
+    { text: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+    { text: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Aristotle" },
+    { text: "Believe you can and you’re halfway there.", author: "Theodore Roosevelt" },
+    { text: "Opportunities don’t happen. You create them.", author: "Chris Grosser" },
+    { text: "The mind is everything. What you think you become.", author: "Buddha" },
+    { text: "The way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+    { text: "Act as if what you do makes a difference. It does.", author: "William James" },
+    { text: "The only limit to our realization of tomorrow is our doubts of today.", author: "Franklin D. Roosevelt" },
+    { text: "Work gives you meaning and purpose and life is empty without it.", author: "Stephen Hawking" },
+    { text: "Keep your face always toward the sunshine—and shadows will fall behind you.", author: "Walt Whitman" }
+];
+
+function generateQuote(){
+    const random = Math.floor(Math.random() * quotes.length);
+    document.getElementById("quote").innerText = `"${quotes[random].text}"`;
+    document.getElementById("author").innerText = `– ${quotes[random].author}`;
+}
+
+function copyQuote(){
+    const quote = document.getElementById("quote").innerText;
+    const author = document.getElementById("author").innerText;
+    navigator.clipboard.writeText(quote + " " + author)
+    .then(()=>alert("Quote copied!"));
+}
+
+function shareQuote(){
+    const quote = document.getElementById("quote").innerText;
+    const author = document.getElementById("author").innerText;
+
+    if(navigator.share){
+        navigator.share({
+            title:"QuoteFlow 365",
+            text: quote + " " + author
+        });
+    }else{
+        alert("Sharing not supported. Copy instead.");
+    }
+}
+
+// Real Time Clock
+function updateTime(){
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    document.getElementById("time").innerText = timeString;
+}
+
+setInterval(updateTime,1000);
+updateTime();
+</script>
+
+</body>
+</html>
